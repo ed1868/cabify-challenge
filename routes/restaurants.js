@@ -5,6 +5,18 @@ const _ = require('lodash');
 
 const Restaurant = require('../models/Restaurants');
 
+// ///////// SHOW ALL RESTAURANTS ROUTE//////////////
+
+router.get('/', (req, res, next) => {
+  Restaurant.find({}, (err, restaurants) => {
+    if (err) {
+      console.log('THERE WAS AN ERROR-------', err);
+      res.status(500).json(err);
+    }
+    res.status(200).json(restaurants);
+  });
+});
+
 
 // ///////////RESTAURANT POST ROUTE/////////////
 
