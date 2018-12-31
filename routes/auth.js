@@ -5,6 +5,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const User = require('../models/User');
+const Restaurants = require('../models/Restaurants');
 // Bcrypt to encrypt passwords
 const bcryptSalt = 10;
 
@@ -75,6 +76,24 @@ router.post('/signup', (req, res, next) => {
 router.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/');
+});
+
+
+// //////////////EATER DELETE && RESTAURANT DELETE//////////////
+
+router.delete('/', (req, res, next) => {
+  User.deleteMany({}, (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+
+  Restaurants.deleteMany({}).then(() => {
+    res.status(200).json({ message: 'EATERS AND RESTAURANTS REMOVED' });
+  }).catch((err) => {
+    console.log(err);
+    res.status(500).json({ message: `THERE HAS BEEN AN ERROR---------${err}` });
+  });
 });
 
 module.exports = router;
