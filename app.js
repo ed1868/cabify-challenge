@@ -77,6 +77,10 @@ const index = require('./routes/index');
 
 app.use('/', index);
 
+const restRoutes = require('./routes/restaurants');
+
+app.use('/restaurants', restRoutes);
+
 const authRoutes = require('./routes/auth');
 
 app.use('/eaters', authRoutes);
