@@ -85,5 +85,12 @@ const authRoutes = require('./routes/auth');
 
 app.use('/eaters', authRoutes);
 
+const groupRoutes = require('./routes/groups');
+
+// app.use('/groups', groupRoutes);
+
+const groupPostRoute = require('./routes/groupPost');
+
+app.use('/create_groups', groupPostRoute);
 
 module.exports = app;

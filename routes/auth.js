@@ -10,9 +10,28 @@ const Restaurants = require('../models/Restaurants');
 const bcryptSalt = 10;
 
 
+const login = (req, user) => new Promise((resolve, reject) => {
+  req.login(user, (err) => {
+    console.log(user);
+    if (err) {
+      reject(new Error('Something went wrong'));
+    } else {
+      resolve(user);
+    }
+  });
+});
+
+router.get('/loggedin', (req, res) => {
+  console.log('THIS IS WHAT YOU ARE LOOKING FOR', req.user);
+  if (req.isAuthenticated()) {
+    return res.status(200).json(req.user);
+  }
+  return res.status(403).json({ message: 'Unauthorized' });
+});
 // GET ALL EATERS ROUTE//
 
 router.get('/', (req, res, next) => {
+  console.log('----------------', req.user);
   User.find({}, (err, users) => {
     res.status(200).json(users);
   });
