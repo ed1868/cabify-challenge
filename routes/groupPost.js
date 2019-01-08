@@ -33,8 +33,14 @@ router.get('/', (req, res, next) => {
   User.find({}, (err, users) => {
     _.forEach(users, (user) => {
       const username = user.username;
+
       return eatersArray.push(username);
     });
+
+    if (eatersArray.includes(leader)) {
+      const leaderIndex = eatersArray.indexOf(leader);
+      eatersArray.splice(leaderIndex, 1);
+    }
 
     for (let i = 0; i < eatersArray.length; i++) {
       if (eaters.length <= 3) {
@@ -65,6 +71,24 @@ router.get('/', (req, res, next) => {
         randomRestaurant,
       });
       console.log(newGroup);
+
+      Group.find({}, (err, groups) => {
+        // _.forEach(groups, (group) => {
+        //   if (group.leader0 === leader) {
+        //     console.log("it's the same leader");
+        //   }
+        // });
+        groups.sort((a, b) => b - a);
+        console.log(groups[0]);
+        console.log('WHAT THE FUCK IS THE GROUP LEADER', groups[0].leader);
+        console.log('THIS IS THE CURRENT FUCKING LEADER', leader);
+        if (groups[0].leader !==  leader) {
+          console.log('WHAT THE FUCK IS THE GROUP LEADER', groups[0].leader);
+          res.status(400).json(({ message: 'YOU JUST MADE A GROUP ALREADY... WAIT A WEEK' }));
+        } else {
+          console.log('leader is fair');
+        }
+      });
 
       Group.create({
         leader,
